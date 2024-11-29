@@ -21,16 +21,31 @@ public class UserService {
     private SecurityConfig bCryptPasswordEncoder;
 
 
-    //Register User
-    public User registerUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.passwordEncoder().encode(user.getPassword()));
-
-
-        return userRepository.save(user);
-    }
     // Find user by username
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
+    public User updateUser(String id, User updatedUser) {
+        return userRepository.findById(id).map(user -> {
+            user.setUsername(updatedUser.getUsername());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(bCryptPasswordEncoder.passwordEncoder().encode(updatedUser.getPassword()));
+            return userRepository.save(user);
+        }).orElse(null);
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
     }
 
 

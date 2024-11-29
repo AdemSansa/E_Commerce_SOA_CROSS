@@ -9,7 +9,7 @@ namespace Ecommerce_frontend.Services
 {
     class ProductService
     {
-        private readonly string BaseUrl = "http://192.168.0.8:8080/api/products"; // Replace with your API URL
+        private readonly string BaseUrl = "http://172.20.10.4:8080/api/products"; // Replace with your API URL
 
         public async Task<List<Product>> GetProductsAsync()
         {

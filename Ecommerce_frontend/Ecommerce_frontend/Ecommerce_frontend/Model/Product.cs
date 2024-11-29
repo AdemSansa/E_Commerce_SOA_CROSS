@@ -11,7 +11,7 @@ namespace Ecommerce_frontend.Model
         public string Description { get; set; }
         public double Price { get; set; }
         public List<Product> Cart { get; set; } = new List<Product>();
-
+        public int Qte { get; set; } = 1; 
         public String image { get; set; }
     }
 }
