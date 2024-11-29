@@ -30,7 +30,7 @@ namespace Ecommerce_frontend
         {
             var button = sender as Button;
             var product = button.BindingContext as Product;
-
+            var Quantity = 0;
             if (product != null)
             {
                 // Check if there is an existing cart
@@ -43,6 +43,7 @@ namespace Ecommerce_frontend
 
                 if (!cart.Contains(product))
                 {
+
                     cart.Add(product);  // Add product to cart
                     await DisplayAlert("Success", $"{product.Name} has been added to your cart!", "OK");
                 }
@@ -54,19 +55,9 @@ namespace Ecommerce_frontend
         }
         private async void OpenCart_Clicked(object sender, EventArgs e)
         {
-            var cart = Application.Current.Properties.ContainsKey("cart")
-                        ? Application.Current.Properties["cart"] as List<Product>
-                        : new List<Product>();
+            await Navigation.PushAsync(new ShoppingCart());
 
-            if (cart.Count > 0)
-            {
-                var cartSummary = string.Join("\n", cart.Select(p => $"{p.Name} - ${p.Price:F2}"));
-                await DisplayAlert("Cart", cartSummary, "OK");
-            }
-            else
-            {
-                await DisplayAlert("Cart", "Your cart is empty.", "OK");
-            }
+
         }
 
     }

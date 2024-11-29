@@ -2,6 +2,7 @@ package com.example.demo.Main.Controller;
 
 
 import com.example.demo.Main.Entity.User;
+import com.example.demo.Main.Service.AuthService;
 import com.example.demo.Main.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,21 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private AuthService authService;
 
 
     // Register
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User RegisteredUser = userService.registerUser(user);
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        try{
+
+        User RegisteredUser = authService.register(user);
         return ResponseEntity.ok(RegisteredUser);
+
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
     }
 
 
@@ -36,11 +44,12 @@ public class AuthController {
     // Login a user (example with basic username/password validation)
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User loginRequest) {
-        Optional<User> user = userService.findByUsername(loginRequest.getUsername());
+        Optional<User> user = userService.findByEmail(loginRequest.getEmail());
 
         if (user.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) {
             // If authentication is successful, you can generate JWT here (if using JWT)
-            return ResponseEntity.ok("Login successful");
+            String token = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
         }

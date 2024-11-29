@@ -16,14 +16,24 @@ public class Product {
     private int quantity;
     private String image;
 
+    public String getCategory() {
+        return category;
+    }
 
-    public Product(String id, String name, String description, double price, int quantity) {
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    private String category;
+
+    public Product(String id, String name, String description, double price, int quantity ,String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.category = category;
     }
 
     public void setImage(String image) {

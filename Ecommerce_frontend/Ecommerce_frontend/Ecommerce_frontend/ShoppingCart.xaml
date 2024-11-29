@@ -3,10 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ecommerce_frontend.ShoppingCart">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="10">
+            <!-- Cart Items List -->
+            <CollectionView x:Name="CartCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" CornerRadius="10" BackgroundColor="White">
+                            <StackLayout Orientation="Horizontal">
+                                <!-- Product Image -->
+                                <Image Source="{Binding image}" WidthRequest="50" HeightRequest="50" />
+
+                                <!-- Product Details -->
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="8,0">
+                                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="10" />
+                                    <Label Text="{Binding Price, StringFormat='${0:F2}'}" TextColor="Green" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Label Text="Qty:" VerticalOptions="Center" />
+                                    <Label Text="{Binding Qte}" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center" 
+                                       Margin="10,0" />
+                                    <Button Text="+" 
+                                        Clicked="IncrementQuantity_Clicked" 
+                                        BackgroundColor="LightGreen" 
+                                        TextColor="White" 
+                                        CornerRadius="30" 
+                                        BindingContext="{Binding}" />
+                                </StackLayout>
+
+                                <!-- Remove Button -->
+                                <Button Text="Remove" 
+                                        Clicked="RemoveFromCart_Clicked" 
+                                        BackgroundColor="Red" 
+                                        TextColor="White" 
+                                        CornerRadius="30" 
+                                        BindingContext="{Binding}" />
+                            </StackLayout>
+                            
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label x:Name="TotalPriceLabel" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="10" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
